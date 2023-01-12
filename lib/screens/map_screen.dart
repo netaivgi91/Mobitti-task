@@ -5,6 +5,7 @@ import '../providers/map_provider.dart';
 
 class MapScreen extends StatelessWidget {
   MapScreen({super.key});
+  
   late GoogleMapController mapController;
 
   void reportUserLocation(BuildContext context, LatLng location) {
