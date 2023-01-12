@@ -10,10 +10,10 @@ class NewsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.watch<NewsModel>().greeting),
+        title: Text(context.watch<NewsViewModel>().greeting),
         backgroundColor: Colors.teal[700],
       ),
-      body: context.watch<NewsModel>().articles.isEmpty
+      body: context.watch<NewsViewModel>().articles.isEmpty
           ? const Center(
               child: CircularProgressIndicator(),
             )
@@ -28,10 +28,11 @@ class NewsScreen extends StatelessWidget {
                     ),
                     Flexible(
                       child: ListView.builder(
-                        itemCount: context.watch<NewsModel>().articles.length,
+                        itemCount:
+                            context.watch<NewsViewModel>().articles.length,
                         itemBuilder: (context, index) {
                           final article =
-                              context.watch<NewsModel>().articles[index];
+                              context.watch<NewsViewModel>().articles[index];
                           if (index == 0) {
                             return Card(
                               child: Column(

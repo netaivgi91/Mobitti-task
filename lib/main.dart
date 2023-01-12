@@ -9,8 +9,8 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => NewsModel()),
-        ChangeNotifierProvider(create: (_) => MapModel()),
+        ChangeNotifierProvider(create: (_) => NewsViewModel()),
+        ChangeNotifierProvider(create: (_) => MapViewModel()),
       ],
       child: MyApp(),
     ),

@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class NewsModel with ChangeNotifier {
-  NewsModel() {
+class NewsViewModel with ChangeNotifier {
+  NewsViewModel() {
     updateGreeting();
     fetchNews();
   }
@@ -26,16 +26,16 @@ class NewsModel with ChangeNotifier {
     }
   }
 
-  final String _newsAPIURL =
+  final String newsApiUrl =
       'https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=';
-  final String _apiKey = 'cb0b1558eb764f6bb6dfdf9eb815ef7c';
+  final String apiKey = 'cb0b1558eb764f6bb6dfdf9eb815ef7c';
 
   List articles = [];
   List get article => articles;
 
   Future<dynamic> fetchNews() async {
     try {
-      final response = await http.get(Uri.parse(_newsAPIURL + _apiKey));
+      final response = await http.get(Uri.parse(newsApiUrl + apiKey));
       final json = jsonDecode(response.body);
       if (response.statusCode == 200) {
         articles = json['articles'];

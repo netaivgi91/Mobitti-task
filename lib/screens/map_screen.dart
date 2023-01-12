@@ -6,6 +6,37 @@ import '../providers/map_provider.dart';
 class MapScreen extends StatelessWidget {
   MapScreen({super.key});
   late GoogleMapController mapController;
+
+  void reportUserLocation(BuildContext context, LatLng location) {
+    mapController.animateCamera(CameraUpdate.newLatLngZoom(location, 17));
+    bool success = context.read<MapViewModel>().setLocation(location);
+    if (success) {
+      showDialogs("Success", "Entered location successfully!", context);
+    } else {
+      showDialogs("Error", "Failed to enter location!", context);
+    }
+  }
+
+  void showDialogs(String title, String content, context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,14 +56,14 @@ class MapScreen extends StatelessWidget {
               mapController = controller;
             },
             initialCameraPosition: CameraPosition(
-              target: context.watch<MapModel>().initialPosition,
+              target: context.watch<MapViewModel>().initialPosition,
               zoom: 11.0,
             ),
-            markers: context.watch<MapModel>().marker,
+            markers: context.watch<MapViewModel>().markers,
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Consumer<MapModel>(
+            child: Consumer<MapViewModel>(
               builder: (context, userLocation, child) => Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -40,17 +71,10 @@ class MapScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 20),
                       child: FloatingActionButton(
                         backgroundColor: Colors.teal[400],
-                        onPressed: () {
-                          LatLng location = LatLng(
-                              userLocation.latitude, userLocation.longitude);
-                          mapController.animateCamera(
-                              CameraUpdate.newLatLngZoom(location, 17));
-                          Provider.of<MapModel>(context, listen: false)
-                              .addMarker(location);
-                          Provider.of<MapModel>(context, listen: false)
-                              .showDialogs("Success",
-                                  "Entered location successfully!", context);
-                        },
+                        onPressed: () => reportUserLocation(
+                            context,
+                            LatLng(
+                                userLocation.latitude, userLocation.longitude)),
                         child: const Text('Enter'),
                       )),
                   const SizedBox(width: 10),
@@ -58,17 +82,10 @@ class MapScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 20),
                       child: FloatingActionButton(
                         backgroundColor: Colors.teal[600],
-                        onPressed: () {
-                          LatLng location = LatLng(
-                              userLocation.latitude, userLocation.longitude);
-                          mapController.animateCamera(
-                              CameraUpdate.newLatLngZoom(location, 17));
-                          Provider.of<MapModel>(context, listen: false)
-                              .addMarker(location);
-                          Provider.of<MapModel>(context, listen: false)
-                              .showDialogs("Success",
-                                  "Entered location successfully!", context);
-                        },
+                        onPressed: () => reportUserLocation(
+                            context,
+                            LatLng(
+                                userLocation.latitude, userLocation.longitude)),
                         child: const Text('Exit'),
                       )),
                 ],

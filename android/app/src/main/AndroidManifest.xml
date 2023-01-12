@@ -2,7 +2,6 @@
     package="com.example.mobitti_task">
    <application
         android:label="mobitti"
-        android:name="Mobitti"
         android:icon="@mipmap/ic_launcher">
        <meta-data android:name="com.google.android.geo.API_KEY"
            android:value="AIzaSyDntKpOxmGRdcdLlR54mYftSquaa0HUfW8"/>
